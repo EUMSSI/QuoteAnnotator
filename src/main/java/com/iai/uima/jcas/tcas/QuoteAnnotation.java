@@ -11,8 +11,8 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** 
- * Updated by JCasGen Wed Oct 28 14:17:53 CET 2015
- * XML source: D:/merlin/workspace_eumssi/QuoteAnnotator/src/main/resources/aeDescriptor.xml
+ * Updated by JCasGen Fri Oct 30 16:43:14 CET 2015
+ * XML source: D:/merlin/GitHub/QuoteAnnotator/src/main/resources/com/iai/uima/jcas/tcas/QuoteAnnotatorTypeSystem.xml
  * @generated */
 public class QuoteAnnotation extends Annotation {
   /** @generated
@@ -96,6 +96,28 @@ public class QuoteAnnotation extends Annotation {
     if (QuoteAnnotation_Type.featOkTst && ((QuoteAnnotation_Type)jcasType).casFeat_Quotee == null)
       jcasType.jcas.throwFeatMissing("Quotee", "com.iai.uima.jcas.tcas.QuoteAnnotation");
     jcasType.ll_cas.ll_setStringValue(addr, ((QuoteAnnotation_Type)jcasType).casFeatCode_Quotee, v);}    
+   
+    
+  //*--------------*
+  //* Feature: QuoteRelation
+
+  /** getter for QuoteRelation - gets 
+   * @generated
+   * @return value of the feature 
+   */
+  public String getQuoteRelation() {
+    if (QuoteAnnotation_Type.featOkTst && ((QuoteAnnotation_Type)jcasType).casFeat_QuoteRelation == null)
+      jcasType.jcas.throwFeatMissing("QuoteRelation", "com.iai.uima.jcas.tcas.QuoteAnnotation");
+    return jcasType.ll_cas.ll_getStringValue(addr, ((QuoteAnnotation_Type)jcasType).casFeatCode_QuoteRelation);}
+    
+  /** setter for QuoteRelation - sets  
+   * @generated
+   * @param v value to set into the feature 
+   */
+  public void setQuoteRelation(String v) {
+    if (QuoteAnnotation_Type.featOkTst && ((QuoteAnnotation_Type)jcasType).casFeat_QuoteRelation == null)
+      jcasType.jcas.throwFeatMissing("QuoteRelation", "com.iai.uima.jcas.tcas.QuoteAnnotation");
+    jcasType.ll_cas.ll_setStringValue(addr, ((QuoteAnnotation_Type)jcasType).casFeatCode_QuoteRelation, v);}    
   }
 
     

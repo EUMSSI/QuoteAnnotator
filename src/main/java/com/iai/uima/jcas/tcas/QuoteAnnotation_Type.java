@@ -14,7 +14,7 @@ import org.apache.uima.cas.Feature;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** 
- * Updated by JCasGen Wed Oct 28 14:17:54 CET 2015
+ * Updated by JCasGen Fri Oct 30 16:43:15 CET 2015
  * @generated */
 public class QuoteAnnotation_Type extends Annotation_Type {
   /** @generated 
@@ -69,6 +69,30 @@ public class QuoteAnnotation_Type extends Annotation_Type {
     ll_cas.ll_setStringValue(addr, casFeatCode_Quotee, v);}
     
   
+ 
+  /** @generated */
+  final Feature casFeat_QuoteRelation;
+  /** @generated */
+  final int     casFeatCode_QuoteRelation;
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @return the feature value 
+   */ 
+  public String getQuoteRelation(int addr) {
+        if (featOkTst && casFeat_QuoteRelation == null)
+      jcas.throwFeatMissing("QuoteRelation", "com.iai.uima.jcas.tcas.QuoteAnnotation");
+    return ll_cas.ll_getStringValue(addr, casFeatCode_QuoteRelation);
+  }
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @param v value to set 
+   */    
+  public void setQuoteRelation(int addr, String v) {
+        if (featOkTst && casFeat_QuoteRelation == null)
+      jcas.throwFeatMissing("QuoteRelation", "com.iai.uima.jcas.tcas.QuoteAnnotation");
+    ll_cas.ll_setStringValue(addr, casFeatCode_QuoteRelation, v);}
+    
+  
 
 
 
@@ -84,6 +108,10 @@ public class QuoteAnnotation_Type extends Annotation_Type {
  
     casFeat_Quotee = jcas.getRequiredFeatureDE(casType, "Quotee", "uima.cas.String", featOkTst);
     casFeatCode_Quotee  = (null == casFeat_Quotee) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_Quotee).getCode();
+
+ 
+    casFeat_QuoteRelation = jcas.getRequiredFeatureDE(casType, "QuoteRelation", "uima.cas.String", featOkTst);
+    casFeatCode_QuoteRelation  = (null == casFeat_QuoteRelation) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_QuoteRelation).getCode();
 
   }
 }

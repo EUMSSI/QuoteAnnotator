@@ -111,6 +111,9 @@ public class QuoteAnnotator extends JCasAnnotator_ImplBase {
 				String quotee_left = null;
 				String quotee_right = null;
 				
+				String quote_relation_left = null;
+				String quote_relation_right = null;
+				
 				List<Chunk> chunks = JCasUtil.selectFollowing(aJCas,
 						Chunk.class, annotation, 1);
 
@@ -129,9 +132,12 @@ public class QuoteAnnotator extends JCasAnnotator_ImplBase {
 												.selectCovered(aJCas,
 														NamedEntity.class,
 														aChunk2);
-										for (NamedEntity ne : nes)
+										for (NamedEntity ne : nes){
 											quotee_right = ne
 													.getCoveredText();
+											quote_relation_right = aToken.getLemma()
+													.getValue();
+										}
 									}
 								}
 							}
@@ -149,9 +155,12 @@ public class QuoteAnnotator extends JCasAnnotator_ImplBase {
 													aChunk2);
 									for (Token aToken : tokens) {
 										if (opinion_verbs.contains(aToken
-												.getLemma().getValue()))
+												.getLemma().getValue())){
 											quotee_right = ne
 													.getCoveredText();
+											quote_relation_right = aToken.getLemma()
+													.getValue();
+										}
 									}
 
 								}
@@ -178,9 +187,12 @@ public class QuoteAnnotator extends JCasAnnotator_ImplBase {
 												.selectCovered(aJCas,
 														NamedEntity.class,
 														aChunk2);
-										for (NamedEntity ne : nes)
+										for (NamedEntity ne : nes){
 											quotee_left = ne
 													.getCoveredText();
+											quote_relation_left = aToken.getLemma()
+													.getValue();
+										}
 									}
 								}
 							}
@@ -198,9 +210,12 @@ public class QuoteAnnotator extends JCasAnnotator_ImplBase {
 													aChunk2);
 									for (Token aToken : tokens) {
 										if (opinion_verbs.contains(aToken
-												.getLemma().getValue()))
+												.getLemma().getValue())){
 											quotee_left = ne
 													.getCoveredText();
+											quote_relation_left = aToken.getLemma()
+													.getValue();
+										}
 									}
 
 								}
@@ -209,12 +224,18 @@ public class QuoteAnnotator extends JCasAnnotator_ImplBase {
 					}
 				}
 				
-				if (quotee_left != null && quotee_right != null)
+				if (quotee_left != null && quotee_right != null){
 					annotation.setQuotee("<unclear>");
-				else if (quotee_left != null)
+					annotation.setQuoteRelation("<none>");
+				}
+				else if (quotee_left != null){
 					annotation.setQuotee(quotee_left);
-				else
+					annotation.setQuoteRelation(quote_relation_left);
+				}
+				else {
 					annotation.setQuotee(quotee_right);
+					annotation.setQuoteRelation(quote_relation_right);
+				}
 			}
 			
 			
