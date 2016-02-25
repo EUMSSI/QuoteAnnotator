@@ -11,8 +11,8 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** 
- * Updated by JCasGen Fri Oct 30 16:43:14 CET 2015
- * XML source: D:/merlin/GitHub/QuoteAnnotator/src/main/resources/com/iai/uima/jcas/tcas/QuoteAnnotatorTypeSystem.xml
+ * Updated by JCasGen Mon Feb 15 14:00:04 CET 2016
+ * XML source: D:/susanne/git/QuoteAnnotator/src/main/resources/com/iai/uima/jcas/tcas/QuoteAnnotatorTypeSystem.xml
  * @generated */
 public class QuoteAnnotation extends Annotation {
   /** @generated
@@ -118,6 +118,54 @@ public class QuoteAnnotation extends Annotation {
     if (QuoteAnnotation_Type.featOkTst && ((QuoteAnnotation_Type)jcasType).casFeat_QuoteRelation == null)
       jcasType.jcas.throwFeatMissing("QuoteRelation", "com.iai.uima.jcas.tcas.QuoteAnnotation");
     jcasType.ll_cas.ll_setStringValue(addr, ((QuoteAnnotation_Type)jcasType).casFeatCode_QuoteRelation, v);}    
+   
+    
+  //*--------------*
+  //* Feature: QuoteType
+
+  /** getter for QuoteType - gets direct versus indirect quote 
+   * @generated
+   * @return value of the feature 
+   */
+  public String getQuoteType() {
+    if (QuoteAnnotation_Type.featOkTst && ((QuoteAnnotation_Type)jcasType).casFeat_QuoteType == null)
+      jcasType.jcas.throwFeatMissing("QuoteType", "com.iai.uima.jcas.tcas.QuoteAnnotation");
+    return jcasType.ll_cas.ll_getStringValue(addr, ((QuoteAnnotation_Type)jcasType).casFeatCode_QuoteType);}
+    
+  /** setter for QuoteType - sets direct versus indirect quote  
+   * @generated
+   * @param v value to set into the feature 
+   */
+  public void setQuoteType(String v) {
+    if (QuoteAnnotation_Type.featOkTst && ((QuoteAnnotation_Type)jcasType).casFeat_QuoteType == null)
+      jcasType.jcas.throwFeatMissing("QuoteType", "com.iai.uima.jcas.tcas.QuoteAnnotation");
+    jcasType.ll_cas.ll_setStringValue(addr, ((QuoteAnnotation_Type)jcasType).casFeatCode_QuoteType, v);}    
+   
+    
+  //*--------------*
+  //* Feature: QuoteeReliability
+
+  /** getter for QuoteeReliability - gets 1 - NER is immediate subject of QuoteeRelation
+2 - unique NER.PER somewhere to the left or right of quote
+3 - ...
+   * @generated
+   * @return value of the feature 
+   */
+  public int getQuoteeReliability() {
+    if (QuoteAnnotation_Type.featOkTst && ((QuoteAnnotation_Type)jcasType).casFeat_QuoteeReliability == null)
+      jcasType.jcas.throwFeatMissing("QuoteeReliability", "com.iai.uima.jcas.tcas.QuoteAnnotation");
+    return jcasType.ll_cas.ll_getIntValue(addr, ((QuoteAnnotation_Type)jcasType).casFeatCode_QuoteeReliability);}
+    
+  /** setter for QuoteeReliability - sets 1 - NER is immediate subject of QuoteeRelation
+2 - unique NER.PER somewhere to the left or right of quote
+3 - ... 
+   * @generated
+   * @param v value to set into the feature 
+   */
+  public void setQuoteeReliability(int v) {
+    if (QuoteAnnotation_Type.featOkTst && ((QuoteAnnotation_Type)jcasType).casFeat_QuoteeReliability == null)
+      jcasType.jcas.throwFeatMissing("QuoteeReliability", "com.iai.uima.jcas.tcas.QuoteAnnotation");
+    jcasType.ll_cas.ll_setIntValue(addr, ((QuoteAnnotation_Type)jcasType).casFeatCode_QuoteeReliability, v);}    
   }
 
     

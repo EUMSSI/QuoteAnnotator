@@ -14,7 +14,7 @@ import org.apache.uima.cas.Feature;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** 
- * Updated by JCasGen Fri Oct 30 16:43:15 CET 2015
+ * Updated by JCasGen Mon Feb 15 14:00:04 CET 2016
  * @generated */
 public class QuoteAnnotation_Type extends Annotation_Type {
   /** @generated 
@@ -93,6 +93,54 @@ public class QuoteAnnotation_Type extends Annotation_Type {
     ll_cas.ll_setStringValue(addr, casFeatCode_QuoteRelation, v);}
     
   
+ 
+  /** @generated */
+  final Feature casFeat_QuoteType;
+  /** @generated */
+  final int     casFeatCode_QuoteType;
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @return the feature value 
+   */ 
+  public String getQuoteType(int addr) {
+        if (featOkTst && casFeat_QuoteType == null)
+      jcas.throwFeatMissing("QuoteType", "com.iai.uima.jcas.tcas.QuoteAnnotation");
+    return ll_cas.ll_getStringValue(addr, casFeatCode_QuoteType);
+  }
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @param v value to set 
+   */    
+  public void setQuoteType(int addr, String v) {
+        if (featOkTst && casFeat_QuoteType == null)
+      jcas.throwFeatMissing("QuoteType", "com.iai.uima.jcas.tcas.QuoteAnnotation");
+    ll_cas.ll_setStringValue(addr, casFeatCode_QuoteType, v);}
+    
+  
+ 
+  /** @generated */
+  final Feature casFeat_QuoteeReliability;
+  /** @generated */
+  final int     casFeatCode_QuoteeReliability;
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @return the feature value 
+   */ 
+  public int getQuoteeReliability(int addr) {
+        if (featOkTst && casFeat_QuoteeReliability == null)
+      jcas.throwFeatMissing("QuoteeReliability", "com.iai.uima.jcas.tcas.QuoteAnnotation");
+    return ll_cas.ll_getIntValue(addr, casFeatCode_QuoteeReliability);
+  }
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @param v value to set 
+   */    
+  public void setQuoteeReliability(int addr, int v) {
+        if (featOkTst && casFeat_QuoteeReliability == null)
+      jcas.throwFeatMissing("QuoteeReliability", "com.iai.uima.jcas.tcas.QuoteAnnotation");
+    ll_cas.ll_setIntValue(addr, casFeatCode_QuoteeReliability, v);}
+    
+  
 
 
 
@@ -112,6 +160,14 @@ public class QuoteAnnotation_Type extends Annotation_Type {
  
     casFeat_QuoteRelation = jcas.getRequiredFeatureDE(casType, "QuoteRelation", "uima.cas.String", featOkTst);
     casFeatCode_QuoteRelation  = (null == casFeat_QuoteRelation) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_QuoteRelation).getCode();
+
+ 
+    casFeat_QuoteType = jcas.getRequiredFeatureDE(casType, "QuoteType", "uima.cas.String", featOkTst);
+    casFeatCode_QuoteType  = (null == casFeat_QuoteType) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_QuoteType).getCode();
+
+ 
+    casFeat_QuoteeReliability = jcas.getRequiredFeatureDE(casType, "QuoteeReliability", "uima.cas.Integer", featOkTst);
+    casFeatCode_QuoteeReliability  = (null == casFeat_QuoteeReliability) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_QuoteeReliability).getCode();
 
   }
 }
