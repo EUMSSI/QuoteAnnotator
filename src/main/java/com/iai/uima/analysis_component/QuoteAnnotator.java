@@ -6,19 +6,19 @@ import java.io.InputStreamReader;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-//import java.util.Map;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.fit.component.JCasAnnotator_ImplBase;
 import org.apache.uima.fit.descriptor.ConfigurationParameter;
-import org.apache.uima.fit.pipeline.SimplePipeline;
 import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
-//import org.apache.uima.jcas.tcas.DocumentAnnotation;
 import org.apache.uima.resource.ResourceInitializationException;
 
+import com.iai.uima.jcas.tcas.IaiCorefAnnotation;
 import com.iai.uima.jcas.tcas.QuoteAnnotation;
 import com.iai.uima.jcas.tcas.SentenceAnnotation;
 
@@ -26,16 +26,12 @@ import de.tudarmstadt.ukp.dkpro.core.api.ner.type.NamedEntity;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 import de.tudarmstadt.ukp.dkpro.core.api.syntax.type.chunk.Chunk;
-//import edu.stanford.nlp.dcoref.CorefChain;
-//import edu.stanford.nlp.dcoref.CorefChain.CorefMention;
-//import edu.stanford.nlp.dcoref.CorefCoreAnnotations.CorefChainAnnotation;
-import edu.stanford.nlp.hcoref.CorefCoreAnnotations;
-import edu.stanford.nlp.hcoref.data.CorefChain;
-import edu.stanford.nlp.hcoref.data.Mention;
+import edu.stanford.nlp.dcoref.CorefChain.CorefMention;
+import edu.stanford.nlp.dcoref.CorefCoreAnnotations.CorefChainAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations.QuotationsAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations.SentencesAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations.TokensAnnotation;
-//import edu.stanford.nlp.ling.CoreLabel;
+import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.util.CoreMap;
@@ -65,9 +61,9 @@ public class QuoteAnnotator extends JCasAnnotator_ImplBase {
 		super.initialize(aContext);
 
 		Properties props = new Properties();
-		props.setProperty("annotators", "tokenize, ssplit, quote");
+//		props.setProperty("annotators", "tokenize, ssplit, quote");
 //		props.setProperty("annotators", "tokenize,ssplit,pos,lemma,ner,parse,mention,coref"); //mention gibt's nicht
-//		props.setProperty("annotators", "tokenize,ssplit,pos,lemma,ner,parse,dcoref");
+		props.setProperty("annotators", "tokenize,ssplit,quote,pos,lemma,ner,parse,dcoref");
 		pipeline = new StanfordCoreNLP(props);
 
 //		SimplePipeline.runPipeline(reader, segmenter, lemma, pos1, chunk, ner, quote, xmiWriter);
@@ -110,26 +106,53 @@ public class QuoteAnnotator extends JCasAnnotator_ImplBase {
 //		Annotation document = new Annotation("Barack Obama was born in Hawaii.  He is the president.  Obama was elected in 2008.");
 		// run all Annotators on this text
 		pipeline.annotate(document); 
-		
+		List<CoreMap> sentences = document.get(SentencesAnnotation.class);
+		Map<Integer, edu.stanford.nlp.dcoref.CorefChain> corefChains = document.get(CorefChainAnnotation.class);
+//		edu.stanford.nlp.dcoref.CorefChain.CorefMention RepresentativeMention = coref
 //		 System.out.println("---");
 //		    System.out.println("coref chains");
-//		    for (CorefChain cc : document.get(CorefCoreAnnotations.CorefChainAnnotation.class).values()) {
-//		      System.out.println("\t"+cc);
-//		    }
-//		    for (CoreMap sentence : document.get(SentencesAnnotation.class)) {
-//		      System.out.println("---");
-//		      System.out.println("mentions");
-//		      for (Mention m : sentence.get(CorefCoreAnnotations.CorefMentionsAnnotation.class)) {
-//		        System.out.println("\t"+m);
-//		       }
-//		    }
-		
-		
+		    if (corefChains == null) { return; }
+		      for (Entry<Integer, edu.stanford.nlp.dcoref.CorefChain> entry: corefChains.entrySet()) {
+//		        System.out.println("Chain " + entry.getKey() + " ");
+		        for (CorefMention m : entry.getValue().getMentionsInTextualOrder()) {
+
+//		                
+
+				// We need to subtract one since the indices count from 1 but the Lists start from 0
+		        	List<CoreLabel> tokens = sentences.get(m.sentNum - 1).get(TokensAnnotation.class);
+		          // We subtract two for end: one for 0-based indexing, and one because we want last token of mention not one following.
+//		          System.out.println("  " + m + ", i.e., 0-based character offsets [" + tokens.get(m.startIndex - 1).beginPosition() +
+//		                  ", " + tokens.get(m.endIndex - 2).endPosition() + ")");
+
+		          CorefMention RepresentativeMention = entry.getValue().getRepresentativeMention();
+		          String repMen = RepresentativeMention.mentionSpan;
+//		          List<CoreLabel> repMenTokens = sentences.get(RepresentativeMention.sentNum - 1).get(TokensAnnotation.class);
+//		          System.out.println("  " + "\"" + repMen + "\"" + " is representative mention" +
+//                          ", i.e., 0-based character offsets [" + repMenTokens.get(RepresentativeMention.startIndex - 1).beginPosition() +
+//		                  ", " + repMenTokens.get(RepresentativeMention.endIndex - 2).endPosition() + ")");
+ 	              IaiCorefAnnotation corefAnnotation = new IaiCorefAnnotation(aJCas);
+		            String corefMention  = m.mentionSpan;
+
+					int beginCoref = tokens.get(m.startIndex - 1).beginPosition();
+					int endCoref = tokens.get(m.endIndex - 2).endPosition();
+					int chain = entry.getKey();
+					corefAnnotation.setBegin(beginCoref);
+					corefAnnotation.setEnd(endCoref);
+					corefAnnotation.setCorefMention(corefMention);
+					corefAnnotation.setCorefChain(chain);
+					corefAnnotation.setRepresentativeMention(repMen);
+					corefAnnotation.addToIndexes();    
+		        }
+		      }
+		    
+		   
+//	 }
+		 
 		
 
 
 		
-		
+		///* quote finder: begin find quote relation and quotee
 		
 		
 		
@@ -407,7 +430,8 @@ public class QuoteAnnotator extends JCasAnnotator_ImplBase {
 		} //for direct quote
 		
 		// annotate indirect quotes: opinion verb + 'that' ... until end of sentence: said that ...
-		List<CoreMap> sentences = document.get(SentencesAnnotation.class);
+
+//		List<CoreMap> sentences = document.get(SentencesAnnotation.class); //already instantiated above
 		for (CoreMap sentence : sentences) {
 //			if (sentence.get(TokensAnnotation.class).size() > 5) { 
 				SentenceAnnotation sentenceAnn = new SentenceAnnotation(aJCas);
@@ -614,6 +638,7 @@ public class QuoteAnnotator extends JCasAnnotator_ImplBase {
 		
 		
 	}
+	// quote finder: end find quote relation and quotee */
 
 }
 

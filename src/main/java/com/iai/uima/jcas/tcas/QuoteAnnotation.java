@@ -11,8 +11,8 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** 
- * Updated by JCasGen Mon Feb 15 14:00:04 CET 2016
- * XML source: D:/susanne/git/QuoteAnnotator/src/main/resources/com/iai/uima/jcas/tcas/QuoteAnnotatorTypeSystem.xml
+ * Updated by JCasGen Wed Mar 23 13:19:32 CET 2016
+ * XML source: D:/merlin/GitHub/QuoteAnnotator/src/main/resources/com/iai/uima/jcas/tcas/QuoteAnnotatorTypeSystem.xml
  * @generated */
 public class QuoteAnnotation extends Annotation {
   /** @generated
@@ -123,7 +123,7 @@ public class QuoteAnnotation extends Annotation {
   //*--------------*
   //* Feature: QuoteType
 
-  /** getter for QuoteType - gets direct versus indirect quote 
+  /** getter for QuoteType - gets 
    * @generated
    * @return value of the feature 
    */
@@ -132,7 +132,7 @@ public class QuoteAnnotation extends Annotation {
       jcasType.jcas.throwFeatMissing("QuoteType", "com.iai.uima.jcas.tcas.QuoteAnnotation");
     return jcasType.ll_cas.ll_getStringValue(addr, ((QuoteAnnotation_Type)jcasType).casFeatCode_QuoteType);}
     
-  /** setter for QuoteType - sets direct versus indirect quote  
+  /** setter for QuoteType - sets  
    * @generated
    * @param v value to set into the feature 
    */
@@ -145,9 +145,7 @@ public class QuoteAnnotation extends Annotation {
   //*--------------*
   //* Feature: QuoteeReliability
 
-  /** getter for QuoteeReliability - gets 1 - NER is immediate subject of QuoteeRelation
-2 - unique NER.PER somewhere to the left or right of quote
-3 - ...
+  /** getter for QuoteeReliability - gets 
    * @generated
    * @return value of the feature 
    */
@@ -156,9 +154,7 @@ public class QuoteAnnotation extends Annotation {
       jcasType.jcas.throwFeatMissing("QuoteeReliability", "com.iai.uima.jcas.tcas.QuoteAnnotation");
     return jcasType.ll_cas.ll_getIntValue(addr, ((QuoteAnnotation_Type)jcasType).casFeatCode_QuoteeReliability);}
     
-  /** setter for QuoteeReliability - sets 1 - NER is immediate subject of QuoteeRelation
-2 - unique NER.PER somewhere to the left or right of quote
-3 - ... 
+  /** setter for QuoteeReliability - sets  
    * @generated
    * @param v value to set into the feature 
    */
@@ -166,6 +162,28 @@ public class QuoteAnnotation extends Annotation {
     if (QuoteAnnotation_Type.featOkTst && ((QuoteAnnotation_Type)jcasType).casFeat_QuoteeReliability == null)
       jcasType.jcas.throwFeatMissing("QuoteeReliability", "com.iai.uima.jcas.tcas.QuoteAnnotation");
     jcasType.ll_cas.ll_setIntValue(addr, ((QuoteAnnotation_Type)jcasType).casFeatCode_QuoteeReliability, v);}    
+   
+    
+  //*--------------*
+  //* Feature: RepresentativeQuoteMention
+
+  /** getter for RepresentativeQuoteMention - gets 
+   * @generated
+   * @return value of the feature 
+   */
+  public String getRepresentativeQuoteMention() {
+    if (QuoteAnnotation_Type.featOkTst && ((QuoteAnnotation_Type)jcasType).casFeat_RepresentativeQuoteMention == null)
+      jcasType.jcas.throwFeatMissing("RepresentativeQuoteMention", "com.iai.uima.jcas.tcas.QuoteAnnotation");
+    return jcasType.ll_cas.ll_getStringValue(addr, ((QuoteAnnotation_Type)jcasType).casFeatCode_RepresentativeQuoteMention);}
+    
+  /** setter for RepresentativeQuoteMention - sets  
+   * @generated
+   * @param v value to set into the feature 
+   */
+  public void setRepresentativeQuoteMention(String v) {
+    if (QuoteAnnotation_Type.featOkTst && ((QuoteAnnotation_Type)jcasType).casFeat_RepresentativeQuoteMention == null)
+      jcasType.jcas.throwFeatMissing("RepresentativeQuoteMention", "com.iai.uima.jcas.tcas.QuoteAnnotation");
+    jcasType.ll_cas.ll_setStringValue(addr, ((QuoteAnnotation_Type)jcasType).casFeatCode_RepresentativeQuoteMention, v);}    
   }
 
     
