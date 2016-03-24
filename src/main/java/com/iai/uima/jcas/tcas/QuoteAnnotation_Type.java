@@ -14,7 +14,7 @@ import org.apache.uima.cas.Feature;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** 
- * Updated by JCasGen Wed Mar 23 13:19:32 CET 2016
+ * Updated by JCasGen Thu Mar 24 14:02:09 CET 2016
  * @generated */
 public class QuoteAnnotation_Type extends Annotation_Type {
   /** @generated 
@@ -143,26 +143,26 @@ public class QuoteAnnotation_Type extends Annotation_Type {
   
  
   /** @generated */
-  final Feature casFeat_RepresentativeQuoteMention;
+  final Feature casFeat_RepresentativeQuoteeMention;
   /** @generated */
-  final int     casFeatCode_RepresentativeQuoteMention;
+  final int     casFeatCode_RepresentativeQuoteeMention;
   /** @generated
    * @param addr low level Feature Structure reference
    * @return the feature value 
    */ 
-  public String getRepresentativeQuoteMention(int addr) {
-        if (featOkTst && casFeat_RepresentativeQuoteMention == null)
-      jcas.throwFeatMissing("RepresentativeQuoteMention", "com.iai.uima.jcas.tcas.QuoteAnnotation");
-    return ll_cas.ll_getStringValue(addr, casFeatCode_RepresentativeQuoteMention);
+  public String getRepresentativeQuoteeMention(int addr) {
+        if (featOkTst && casFeat_RepresentativeQuoteeMention == null)
+      jcas.throwFeatMissing("RepresentativeQuoteeMention", "com.iai.uima.jcas.tcas.QuoteAnnotation");
+    return ll_cas.ll_getStringValue(addr, casFeatCode_RepresentativeQuoteeMention);
   }
   /** @generated
    * @param addr low level Feature Structure reference
    * @param v value to set 
    */    
-  public void setRepresentativeQuoteMention(int addr, String v) {
-        if (featOkTst && casFeat_RepresentativeQuoteMention == null)
-      jcas.throwFeatMissing("RepresentativeQuoteMention", "com.iai.uima.jcas.tcas.QuoteAnnotation");
-    ll_cas.ll_setStringValue(addr, casFeatCode_RepresentativeQuoteMention, v);}
+  public void setRepresentativeQuoteeMention(int addr, String v) {
+        if (featOkTst && casFeat_RepresentativeQuoteeMention == null)
+      jcas.throwFeatMissing("RepresentativeQuoteeMention", "com.iai.uima.jcas.tcas.QuoteAnnotation");
+    ll_cas.ll_setStringValue(addr, casFeatCode_RepresentativeQuoteeMention, v);}
     
   
 
@@ -194,8 +194,8 @@ public class QuoteAnnotation_Type extends Annotation_Type {
     casFeatCode_QuoteeReliability  = (null == casFeat_QuoteeReliability) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_QuoteeReliability).getCode();
 
  
-    casFeat_RepresentativeQuoteMention = jcas.getRequiredFeatureDE(casType, "RepresentativeQuoteMention", "uima.cas.String", featOkTst);
-    casFeatCode_RepresentativeQuoteMention  = (null == casFeat_RepresentativeQuoteMention) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_RepresentativeQuoteMention).getCode();
+    casFeat_RepresentativeQuoteeMention = jcas.getRequiredFeatureDE(casType, "RepresentativeQuoteeMention", "uima.cas.String", featOkTst);
+    casFeatCode_RepresentativeQuoteeMention  = (null == casFeat_RepresentativeQuoteeMention) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_RepresentativeQuoteeMention).getCode();
 
   }
 }

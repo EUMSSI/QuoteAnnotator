@@ -149,7 +149,7 @@ public class QuoteAnnotator extends JCasAnnotator_ImplBase {
 //	 }
 		 
 		
-
+//		      System.out.println("NOW quote finder");
 
 		
 		///* quote finder: begin find quote relation and quotee
@@ -376,6 +376,7 @@ public class QuoteAnnotator extends JCasAnnotator_ImplBase {
 						annotation.setQuoteRelation(quote_relation_left);
 						annotation.setQuoteType(quoteType);
 						annotation.setQuoteeReliability(quoteeReliability);
+						annotation.setRepresentativeQuoteeMention(quotee_left);
 					}
 					else if (containedTokens.get(containedTokens.size() - 2).getLemma().getValue().equals(",")){
 //						System.out.println("Hello, World COMMA" + quotee_right + quote_relation_right + quoteeReliability);
@@ -383,6 +384,7 @@ public class QuoteAnnotator extends JCasAnnotator_ImplBase {
 						annotation.setQuoteRelation(quote_relation_right);
 						annotation.setQuoteType(quoteType);
 						annotation.setQuoteeReliability(quoteeReliability);
+						annotation.setRepresentativeQuoteeMention(quotee_right);
 					}
 					else {
 //						System.out.println("Hello, World UNCLEAR" + quotee_left + quote_relation_left + quote + quotee_right + quote_relation_right);
@@ -396,6 +398,7 @@ public class QuoteAnnotator extends JCasAnnotator_ImplBase {
 					annotation.setQuoteRelation(quote_relation_left);
 					annotation.setQuoteType(quoteType);
 					annotation.setQuoteeReliability(quoteeReliability);
+					annotation.setRepresentativeQuoteeMention(quotee_left);
 				}
 				else if (quotee_left != null){
 //					System.out.println("Hello, World quotee_left" + quotee_left + quote_relation_left + quoteeReliability);
@@ -403,6 +406,7 @@ public class QuoteAnnotator extends JCasAnnotator_ImplBase {
 					annotation.setQuoteRelation(quote_relation_left);
 					annotation.setQuoteType(quoteType);
 					annotation.setQuoteeReliability(quoteeReliability);
+					annotation.setRepresentativeQuoteeMention(quotee_left);
 				}
 				else if (quotee_right != null){
 //					System.out.println("Hello, World quotee_right" + quotee_right + quote_relation_right + quoteeReliability);
@@ -410,6 +414,7 @@ public class QuoteAnnotator extends JCasAnnotator_ImplBase {
 					annotation.setQuoteRelation(quote_relation_right);
 					annotation.setQuoteType(quoteType);
 					annotation.setQuoteeReliability(quoteeReliability);
+					annotation.setRepresentativeQuoteeMention(quotee_right);
 				}
 				else if (quote_relation_left != null ){
 					annotation.setQuoteRelation(quote_relation_left);
@@ -614,6 +619,7 @@ public class QuoteAnnotator extends JCasAnnotator_ImplBase {
 							indirectQuote.setQuoteRelation(quote_relation_left);
 							indirectQuote.setQuoteType(quoteType);
 							indirectQuote.setQuoteeReliability(quoteeReliability);
+							indirectQuote.setRepresentativeQuoteeMention(quotee_left);
 //							System.out.println("Hello, World INDIRECT QUOTE" + quotee_left + quote_relation_left + quoteeReliability);
 						}
 						else if (quote_relation_left != null){

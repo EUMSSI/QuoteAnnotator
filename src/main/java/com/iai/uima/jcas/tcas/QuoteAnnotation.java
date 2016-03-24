@@ -11,7 +11,7 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** 
- * Updated by JCasGen Wed Mar 23 13:19:32 CET 2016
+ * Updated by JCasGen Thu Mar 24 14:02:09 CET 2016
  * XML source: D:/merlin/GitHub/QuoteAnnotator/src/main/resources/com/iai/uima/jcas/tcas/QuoteAnnotatorTypeSystem.xml
  * @generated */
 public class QuoteAnnotation extends Annotation {
@@ -165,25 +165,25 @@ public class QuoteAnnotation extends Annotation {
    
     
   //*--------------*
-  //* Feature: RepresentativeQuoteMention
+  //* Feature: RepresentativeQuoteeMention
 
-  /** getter for RepresentativeQuoteMention - gets 
+  /** getter for RepresentativeQuoteeMention - gets 
    * @generated
    * @return value of the feature 
    */
-  public String getRepresentativeQuoteMention() {
-    if (QuoteAnnotation_Type.featOkTst && ((QuoteAnnotation_Type)jcasType).casFeat_RepresentativeQuoteMention == null)
-      jcasType.jcas.throwFeatMissing("RepresentativeQuoteMention", "com.iai.uima.jcas.tcas.QuoteAnnotation");
-    return jcasType.ll_cas.ll_getStringValue(addr, ((QuoteAnnotation_Type)jcasType).casFeatCode_RepresentativeQuoteMention);}
+  public String getRepresentativeQuoteeMention() {
+    if (QuoteAnnotation_Type.featOkTst && ((QuoteAnnotation_Type)jcasType).casFeat_RepresentativeQuoteeMention == null)
+      jcasType.jcas.throwFeatMissing("RepresentativeQuoteeMention", "com.iai.uima.jcas.tcas.QuoteAnnotation");
+    return jcasType.ll_cas.ll_getStringValue(addr, ((QuoteAnnotation_Type)jcasType).casFeatCode_RepresentativeQuoteeMention);}
     
-  /** setter for RepresentativeQuoteMention - sets  
+  /** setter for RepresentativeQuoteeMention - sets  
    * @generated
    * @param v value to set into the feature 
    */
-  public void setRepresentativeQuoteMention(String v) {
-    if (QuoteAnnotation_Type.featOkTst && ((QuoteAnnotation_Type)jcasType).casFeat_RepresentativeQuoteMention == null)
-      jcasType.jcas.throwFeatMissing("RepresentativeQuoteMention", "com.iai.uima.jcas.tcas.QuoteAnnotation");
-    jcasType.ll_cas.ll_setStringValue(addr, ((QuoteAnnotation_Type)jcasType).casFeatCode_RepresentativeQuoteMention, v);}    
+  public void setRepresentativeQuoteeMention(String v) {
+    if (QuoteAnnotation_Type.featOkTst && ((QuoteAnnotation_Type)jcasType).casFeat_RepresentativeQuoteeMention == null)
+      jcasType.jcas.throwFeatMissing("RepresentativeQuoteeMention", "com.iai.uima.jcas.tcas.QuoteAnnotation");
+    jcasType.ll_cas.ll_setStringValue(addr, ((QuoteAnnotation_Type)jcasType).casFeatCode_RepresentativeQuoteeMention, v);}    
   }
 
     

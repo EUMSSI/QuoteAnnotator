@@ -11,7 +11,7 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** 
- * Updated by JCasGen Wed Mar 23 13:19:32 CET 2016
+ * Updated by JCasGen Thu Mar 24 14:02:09 CET 2016
  * XML source: D:/merlin/GitHub/QuoteAnnotator/src/main/resources/com/iai/uima/jcas/tcas/QuoteAnnotatorTypeSystem.xml
  * @generated */
 public class IaiCorefAnnotation extends Annotation {
