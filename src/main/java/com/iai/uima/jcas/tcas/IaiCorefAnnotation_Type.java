@@ -14,7 +14,7 @@ import org.apache.uima.cas.Feature;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** 
- * Updated by JCasGen Thu Mar 24 14:02:09 CET 2016
+ * Updated by JCasGen Fri Aug 12 16:04:19 CEST 2016
  * @generated */
 public class IaiCorefAnnotation_Type extends Annotation_Type {
   /** @generated 

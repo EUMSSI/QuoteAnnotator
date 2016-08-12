@@ -45,6 +45,11 @@
 			<version>3.6.0</version>
 			<classifier>models</classifier>
 		</dependency>
+		<dependency>
+			<groupId>org.dbpedia.spotlight</groupId>
+			<artifactId>uima</artifactId>
+			<version>0.8-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 	<name>QuoteAnnotator</name>
 </project>

@@ -11,8 +11,8 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** 
- * Updated by JCasGen Thu Mar 24 14:02:09 CET 2016
- * XML source: D:/merlin/GitHub/QuoteAnnotator/src/main/resources/com/iai/uima/jcas/tcas/QuoteAnnotatorTypeSystem.xml
+ * Updated by JCasGen Fri Aug 12 16:04:19 CEST 2016
+ * XML source: D:/susanne/git/QuoteAnnotator/src/main/resources/com/iai/uima/jcas/tcas/QuoteAnnotatorTypeSystem.xml
  * @generated */
 public class SentenceAnnotation extends Annotation {
   /** @generated

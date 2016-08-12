@@ -14,7 +14,7 @@ import org.apache.uima.cas.Feature;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** 
- * Updated by JCasGen Thu Mar 24 14:02:09 CET 2016
+ * Updated by JCasGen Fri Aug 12 16:04:19 CEST 2016
  * @generated */
 public class QuoteAnnotation_Type extends Annotation_Type {
   /** @generated 
@@ -165,6 +165,30 @@ public class QuoteAnnotation_Type extends Annotation_Type {
     ll_cas.ll_setStringValue(addr, casFeatCode_RepresentativeQuoteeMention, v);}
     
   
+ 
+  /** @generated */
+  final Feature casFeat_QuoteeDBpediaUri;
+  /** @generated */
+  final int     casFeatCode_QuoteeDBpediaUri;
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @return the feature value 
+   */ 
+  public String getQuoteeDBpediaUri(int addr) {
+        if (featOkTst && casFeat_QuoteeDBpediaUri == null)
+      jcas.throwFeatMissing("QuoteeDBpediaUri", "com.iai.uima.jcas.tcas.QuoteAnnotation");
+    return ll_cas.ll_getStringValue(addr, casFeatCode_QuoteeDBpediaUri);
+  }
+  /** @generated
+   * @param addr low level Feature Structure reference
+   * @param v value to set 
+   */    
+  public void setQuoteeDBpediaUri(int addr, String v) {
+        if (featOkTst && casFeat_QuoteeDBpediaUri == null)
+      jcas.throwFeatMissing("QuoteeDBpediaUri", "com.iai.uima.jcas.tcas.QuoteAnnotation");
+    ll_cas.ll_setStringValue(addr, casFeatCode_QuoteeDBpediaUri, v);}
+    
+  
 
 
 
@@ -196,6 +220,10 @@ public class QuoteAnnotation_Type extends Annotation_Type {
  
     casFeat_RepresentativeQuoteeMention = jcas.getRequiredFeatureDE(casType, "RepresentativeQuoteeMention", "uima.cas.String", featOkTst);
     casFeatCode_RepresentativeQuoteeMention  = (null == casFeat_RepresentativeQuoteeMention) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_RepresentativeQuoteeMention).getCode();
+
+ 
+    casFeat_QuoteeDBpediaUri = jcas.getRequiredFeatureDE(casType, "QuoteeDBpediaUri", "uima.cas.String", featOkTst);
+    casFeatCode_QuoteeDBpediaUri  = (null == casFeat_QuoteeDBpediaUri) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_QuoteeDBpediaUri).getCode();
 
   }
 }

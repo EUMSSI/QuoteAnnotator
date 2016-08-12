@@ -3,8 +3,8 @@ believe
 argue
 know
 tell
-add that
-announce that
+add
+announce
 call
 say
 insist
@@ -13,16 +13,20 @@ think
 speculate
 presume
 suggest
+convince PASSSUBJ
 remain unconvinced
 complain
 surmise
+reveal
 contend
 warn
 admit
+regret
 guess
+show
 acknowledge
 theorize
-worry
+worry PASSSUBJ
 reckon
 cite
 ask
@@ -60,6 +64,12 @@ plan
 propose
 consider
 recommend
+rule
+threaten
+emphasize
+emphasise
+request
+conclude
 approve
 enact
 introduce
@@ -73,6 +83,12 @@ unveil
 contemplate
 seek
 announce
+stress
+demonstrate
+spit
+reply
+estimate
+prove
 envisage
 advocate
 endorse
@@ -97,6 +113,7 @@ rail
 oppose
 protest
 vilify
+claim
 proclaim
 admonish
 demonize
@@ -109,8 +126,24 @@ promise
 agree
 echo
 report
+quote PASSSUBJ
 convey
+confirm
 fear
 apprehend
-be concerned
+concern PASSSUBJ
+send
+hope
+caution
+discover
+explain
+confident
+indicate
+signal
+reason
 send out words of caution
+point
+point out
+paint
+paint a picture
+worry about PASSSUBJ

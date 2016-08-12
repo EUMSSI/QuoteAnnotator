@@ -11,8 +11,8 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** 
- * Updated by JCasGen Thu Mar 24 14:02:09 CET 2016
- * XML source: D:/merlin/GitHub/QuoteAnnotator/src/main/resources/com/iai/uima/jcas/tcas/QuoteAnnotatorTypeSystem.xml
+ * Updated by JCasGen Fri Aug 12 16:04:19 CEST 2016
+ * XML source: D:/susanne/git/QuoteAnnotator/src/main/resources/com/iai/uima/jcas/tcas/QuoteAnnotatorTypeSystem.xml
  * @generated */
 public class QuoteAnnotation extends Annotation {
   /** @generated
@@ -184,6 +184,28 @@ public class QuoteAnnotation extends Annotation {
     if (QuoteAnnotation_Type.featOkTst && ((QuoteAnnotation_Type)jcasType).casFeat_RepresentativeQuoteeMention == null)
       jcasType.jcas.throwFeatMissing("RepresentativeQuoteeMention", "com.iai.uima.jcas.tcas.QuoteAnnotation");
     jcasType.ll_cas.ll_setStringValue(addr, ((QuoteAnnotation_Type)jcasType).casFeatCode_RepresentativeQuoteeMention, v);}    
+   
+    
+  //*--------------*
+  //* Feature: QuoteeDBpediaUri
+
+  /** getter for QuoteeDBpediaUri - gets DBpediaUri taken from DBpediaSpotlight annotation
+   * @generated
+   * @return value of the feature 
+   */
+  public String getQuoteeDBpediaUri() {
+    if (QuoteAnnotation_Type.featOkTst && ((QuoteAnnotation_Type)jcasType).casFeat_QuoteeDBpediaUri == null)
+      jcasType.jcas.throwFeatMissing("QuoteeDBpediaUri", "com.iai.uima.jcas.tcas.QuoteAnnotation");
+    return jcasType.ll_cas.ll_getStringValue(addr, ((QuoteAnnotation_Type)jcasType).casFeatCode_QuoteeDBpediaUri);}
+    
+  /** setter for QuoteeDBpediaUri - sets DBpediaUri taken from DBpediaSpotlight annotation 
+   * @generated
+   * @param v value to set into the feature 
+   */
+  public void setQuoteeDBpediaUri(String v) {
+    if (QuoteAnnotation_Type.featOkTst && ((QuoteAnnotation_Type)jcasType).casFeat_QuoteeDBpediaUri == null)
+      jcasType.jcas.throwFeatMissing("QuoteeDBpediaUri", "com.iai.uima.jcas.tcas.QuoteAnnotation");
+    jcasType.ll_cas.ll_setStringValue(addr, ((QuoteAnnotation_Type)jcasType).casFeatCode_QuoteeDBpediaUri, v);}    
   }
 
     
