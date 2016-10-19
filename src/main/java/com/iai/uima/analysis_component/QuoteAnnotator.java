@@ -98,7 +98,7 @@ public class QuoteAnnotator extends JCasAnnotator_ImplBase {
 		private HashMap<String, String> offsetToLemmaOfOpinionVerb = new HashMap<String, String>();
 		private HashMap<String, String> offsetToLemmaOfPassiveOpinionVerb = new HashMap<String, String>();
 		private HashMap<String, String> offsetToLemmaOfOpinionExpression = new HashMap<String, String>();
-		private HashMap<String, String> labelToDBpediaLink = new HashMap<String, String>();
+		private HashMap<String, String> dbpediaSurfaceFormToDBpediaLink = new HashMap<String, String>();
 		private HashSet<String> OpinionExpression = new HashSet<String>();
 		//SPnew OpinionExpressionToken is later replaced with lemma
 		private HashMap<String, String> offsetToOpinionExpressionToken = new HashMap<String, String>();
@@ -239,6 +239,7 @@ public class QuoteAnnotator extends JCasAnnotator_ImplBase {
 		 HashSet<String> aclauseTag = new HashSet<String>(); 
 		 
 		 HashSet<String> compLemma = new HashSet<String>(); 
+		 HashSet<String> coordLemma = new HashSet<String>(); 
 		 HashSet<String> directQuoteIntro = new HashSet<String>(); 
 		 HashSet<String> indirectQuoteIntroChunkValue = new HashSet<String>();
 		 
@@ -283,6 +284,7 @@ public class QuoteAnnotator extends JCasAnnotator_ImplBase {
            	 pronTag.add("prp");
            	hds.pronTag.add("prp");
            	compLemma.add("that");
+           	compLemma.add("and");
            	verbComplementTag.add("ccomp");
            	verbComplementTag.add("parataxis");
 
@@ -303,7 +305,7 @@ public class QuoteAnnotator extends JCasAnnotator_ImplBase {
 		
 		 
 		for (CoreMap sentence : sentences) {
-			System.out.println("PREPROCESSING..");
+//			System.out.println("PREPROCESSING..");
 				SentenceAnnotation sentenceAnn = new SentenceAnnotation(aJCas);
 				
 				int beginSentence = sentence.get(TokensAnnotation.class).get(0)
@@ -351,8 +353,10 @@ public class QuoteAnnotator extends JCasAnnotator_ImplBase {
 					// not found if dbpedia offsets are wrongly outside than sentences
 //					System.out.println("DBPED SENT: " + sentenceAnn.getBegin()+ "-" + sentenceAnn.getEnd() ); 
 //					String offsetDB = "" + dbStart + "-" + dbEnd;
-					hds.labelToDBpediaLink.put(dbped.getLabel(), dbped.getUri());
+//					hds.labelToDBpediaLink.put(dbped.getLabel(), dbped.getUri());
 //					System.out.println("NOW DBPED: " + dbped.getLabel() + "URI: " + dbped.getUri() ); 
+					hds.dbpediaSurfaceFormToDBpediaLink.put(dbped.getCoveredText(), dbped.getUri());
+//					System.out.println("NOW DBPED: " + dbped.getCoveredText() + "URI: " + dbped.getUri() ); 
 				}
 					
 				
@@ -400,9 +404,9 @@ public class QuoteAnnotator extends JCasAnnotator_ImplBase {
 			TypedDependency typedDependency;
 DEPENDENCYSEARCH: for (Object object : list) {
 			typedDependency = (TypedDependency) object;
-			System.out.println("DEP " + typedDependency.dep().toString()+ 
-					" GOV " + typedDependency.gov().toString()+ 
-			" :: "+ " RELN "+typedDependency.reln().toString());
+//			System.out.println("DEP " + typedDependency.dep().toString()+ 
+//					" GOV " + typedDependency.gov().toString()+ 
+//			" :: "+ " RELN "+typedDependency.reln().toString());
 			String pos = null;
             String[] elements;
             String verbCand = null;
@@ -437,14 +441,14 @@ DEPENDENCYSEARCH: for (Object object : list) {
 //						storeRelations(typedDependency, hds.predicateToSubjectChainHead, hds.subjectToPredicateChainHead, hds);
 //					}
 //				}
-				System.out.println("SUBJCHAINHEAD1");
+//				System.out.println("SUBJCHAINHEAD1");
 				storeRelations(typedDependency, hds.predicateToSubjectChainHead, hds.subjectToPredicateChainHead, hds);
 //				System.out.println("verbCand " + verbCand);
 				//hack for subj after obj said Zwickel (obj) on Monday morning (subj)
 				if (language.equals("en") 
 						&& hds.predicateToObject.containsKey(offsetVerbCand)
 						){
-            		System.out.println("CONTINUE DEP");
+//            		System.out.println("CONTINUE DEP");
             		continue DEPENDENCYSEARCH;
             	}
 				else {
@@ -476,7 +480,7 @@ DEPENDENCYSEARCH: for (Object object : list) {
 //				}
             	
             	storeRelations(typedDependency, hds.predicateToSubjectChainHead, hds.subjectToPredicateChainHead, hds);
-            	System.out.println("SUBJCHAINHEAD2");
+//            	System.out.println("SUBJCHAINHEAD2");
             	//Merkel is concerned
             	determineSubjectToVerbRelations(typedDependency, 
             			hds.offsetToLemmaOfPassiveOpinionVerb,
@@ -496,7 +500,7 @@ DEPENDENCYSEARCH: for (Object object : list) {
 				int endAppo = typedDependency.dep().endPosition();
 				String offsetAppo = "" + beginAppo + "-" + endAppo;
 				
-            	System.out.println("APPOSITION1 " + subjCand + "::"+ appo + ":" + offsetSubjCand + " " + offsetAppo);
+//            	System.out.println("APPOSITION1 " + subjCand + "::"+ appo + ":" + offsetSubjCand + " " + offsetAppo);
             	hds.subjectToApposition.put(offsetSubjCand, offsetAppo);
             }
             else if (relclauseTag.contains(typedDependency.reln().toString())){
@@ -523,12 +527,12 @@ DEPENDENCYSEARCH: for (Object object : list) {
 					hds.subjectToPredicate.remove(del);
 					hds.normalPredicateToSubject.remove(offsetVerbCand);
 					hds.subjectToNormalPredicate.remove(del);
-					System.out.println("REMOVE RELPRO " + verbCand + "/" + hds.offsetToLemma.get(del));
+//					System.out.println("REMOVE RELPRO " + verbCand + "/" + hds.offsetToLemma.get(del));
 					hds.predicateToSubject.put(offsetVerbCand, offsetSubjCand);
 					hds.subjectToPredicate.put( offsetSubjCand, offsetVerbCand);
 					hds.normalPredicateToSubject.put(offsetVerbCand, offsetSubjCand);
 					hds.subjectToNormalPredicate.put( offsetSubjCand, offsetVerbCand);
-					System.out.println("RELCLAUSE " + subjCand + "::" + ":" + verbCand);
+//					System.out.println("RELCLAUSE " + subjCand + "::" + ":" + verbCand);
 					hds.offsetToSubjectHead.put(offsetSubjCand,subjCand);
 					hds.SubjectHead.add(offsetSubjCand);
 					
@@ -562,7 +566,7 @@ DEPENDENCYSEARCH: for (Object object : list) {
 					hds.PronominalSubject.add(offsetObjCand);
 					}
 					}
-            	System.out.println("DIROBJ STORE ONLY");
+//            	System.out.println("DIROBJ STORE ONLY");
             	//told Obama
             	//said IG metall boss Klaus Zwickel
             	// problem: pointing DO
@@ -570,7 +574,7 @@ DEPENDENCYSEARCH: for (Object object : list) {
             	 if (language.equals("en") 
  						&& !hds.normalPredicateToSubject.containsKey(offsetVerbCand)
  						){
-            		 System.out.println("INVERSE SUBJ HACK ENGLISH PREDTOOBJ");
+//            		 System.out.println("INVERSE SUBJ HACK ENGLISH PREDTOOBJ");
             	determineSubjectToVerbRelations(typedDependency, 
             			hds.offsetToLemmaOfOpinionVerb,
             			hds);
@@ -579,7 +583,7 @@ DEPENDENCYSEARCH: for (Object object : list) {
             //was reported to have said
             else if (infVerbTag.contains(typedDependency.reln().toString())){
             	storeRelations(typedDependency, hds.mainToInfinitiveVerb, hds.infinitiveToMainVerb, hds);
-            	System.out.println("MAIN-INF");
+//            	System.out.println("MAIN-INF");
               	determineSubjectToVerbRelations(typedDependency, 
             			hds.offsetToLemmaOfOpinionVerb,
             			hds);
@@ -587,7 +591,7 @@ DEPENDENCYSEARCH: for (Object object : list) {
             }
             else if (aclauseTag.contains(typedDependency.reln().toString())){
             	storeRelations(typedDependency, hds.nounToInfinitiveVerb, hds.infinitiveVerbToNoun, hds);
-            	System.out.println("NOUN-INF");
+//            	System.out.println("NOUN-INF");
               	determineSubjectToVerbRelations(typedDependency, 
             			hds.offsetToLemmaOfOpinionVerb,
             			hds);
@@ -736,7 +740,7 @@ DEPENDENCYSEARCH: for (Object object : list) {
 		      } //end chains
 
 
-		      System.out.println("NOW quote finder");
+//		      System.out.println("NOW quote finder");
 
 
 		
@@ -828,7 +832,7 @@ DEPENDENCYSEARCH: for (Object object : list) {
 		   for (SentenceAnnotation sentenceFollowsQuote: sentencesFollowQuote){
 						   List<Chunk> chunks = JCasUtil.selectCovered(aJCas,
 						Chunk.class, sentenceFollowsQuote);
-			System.out.println("DIRECT QUOTE RIGHT");
+//			System.out.println("DIRECT QUOTE RIGHT");
 			String[] quote_annotation_result = determine_quotee_and_quote_relation("RIGHT", 
 					chunks, hds, annotation);
 			if (quote_annotation_result.length>=4){
@@ -845,8 +849,8 @@ DEPENDENCYSEARCH: for (Object object : list) {
 				quoteeReliability_right = -5;
 				}					   
 			 }
-			System.out.println("DIRECT QUOTE RIGHT RESULT quotee " + quotee_right + " representative_quotee " + representative_quotee_right
-					+ " quote_relation " + quote_relation_right);
+//			System.out.println("DIRECT QUOTE RIGHT RESULT quotee " + quotee_right + " representative_quotee " + representative_quotee_right
+//					+ " quote_relation " + quote_relation_right);
 		   
 			}
 					   
@@ -902,7 +906,7 @@ DEPENDENCYSEARCH: for (Object object : list) {
 				        }
                 	
 //				       
-						System.out.println("DIRECT QUOTE LEFT");
+//						System.out.println("DIRECT QUOTE LEFT");
 						String[] quote_annotation_direct_left = determine_quotee_and_quote_relation("LEFT", chunks,
 								 hds, annotation
 								
@@ -925,12 +929,12 @@ DEPENDENCYSEARCH: for (Object object : list) {
 			quoteeReliability_left = -5;
 			}					   
 		 }
-		System.out.println("DIRECT QUOTE LEFT RESULT quotee " + quotee_left + " representative_quotee " + representative_quotee_left
-				+ " quote_relation " + quote_relation_left);
+//		System.out.println("DIRECT QUOTE LEFT RESULT quotee " + quotee_left + " representative_quotee " + representative_quotee_left
+//				+ " quote_relation " + quote_relation_left);
 		//no subject - predicate quotee quote_relation, quote introduced with colon: 
 		if (quotee_left == null && quote_relation_left == null && representative_quotee_left == null 
 		&& directQuoteIntro.contains(aPrecedingToken.getLemma().getValue().toString())){
-			System.out.println("NER DIRECT QUOTE LEFT COLON");
+//			System.out.println("NER DIRECT QUOTE LEFT COLON");
 			String quoteeCandOffset = null; 
 			String quoteeCandText = null;
 		     if (namedEntities.size() == 1){
@@ -976,7 +980,7 @@ DEPENDENCYSEARCH: for (Object object : list) {
 		    	 if (result.length>=2){
 		    		 quotee_left = result [0];
 		    		 representative_quotee_left = result [1];
-		    	 System.out.println("RESULT2 NER quotee " + quotee_left + " representative_quotee " + representative_quotee_left);
+//		    	 System.out.println("RESULT2 NER quotee " + quotee_left + " representative_quotee " + representative_quotee_left);
 		    	 }
 		     }
 		}
@@ -986,13 +990,13 @@ DEPENDENCYSEARCH: for (Object object : list) {
 
 				
 				if (quotee_left != null && quotee_right != null){
-					System.out.println("TWO QUOTEES");
+//					System.out.println("TWO QUOTEES");
 					
 					if (directQuoteTokens.get(directQuoteTokens.size() - 2).getLemma().getValue().equals(".") 
 						|| 	directQuoteTokens.get(directQuoteTokens.size() - 2).getLemma().getValue().equals("!")
 						|| directQuoteTokens.get(directQuoteTokens.size() - 2).getLemma().getValue().equals("?")
 							){
-						System.out.println("PUNCT " + quotee_left + quote_relation_left + quoteeReliability_left);
+//						System.out.println("PUNCT " + quotee_left + quote_relation_left + quoteeReliability_left);
 						annotation.setQuotee(quotee_left);
 						annotation.setQuoteRelation(quote_relation_left);
 						annotation.setQuoteType(quoteType);
@@ -1001,7 +1005,7 @@ DEPENDENCYSEARCH: for (Object object : list) {
 
 					}
 					else if (directQuoteTokens.get(directQuoteTokens.size() - 2).getLemma().getValue().equals(",")){
-						System.out.println("COMMA " + quotee_right + " " + quote_relation_right + " " + quoteeReliability_right);
+//						System.out.println("COMMA " + quotee_right + " " + quote_relation_right + " " + quoteeReliability_right);
 						annotation.setQuotee(quotee_right);
 						annotation.setQuoteRelation(quote_relation_right);
 						annotation.setQuoteType(quoteType);
@@ -1014,7 +1018,7 @@ DEPENDENCYSEARCH: for (Object object : list) {
 							
 							
 							){
-						System.out.println("NO PUNCT " + quotee_right + " " + quote_relation_right + " " + quoteeReliability_right);
+//						System.out.println("NO PUNCT " + quotee_right + " " + quote_relation_right + " " + quoteeReliability_right);
 						annotation.setQuotee(quotee_right);
 						annotation.setQuoteRelation(quote_relation_right);
 						annotation.setQuoteType(quoteType);
@@ -1022,7 +1026,7 @@ DEPENDENCYSEARCH: for (Object object : list) {
 						annotation.setRepresentativeQuoteeMention(representative_quotee_right);
 					}
 					else {
-						System.out.println("UNCLEAR LEFT RIGHT " + quotee_left + quote_relation_left + quote + quotee_right + quote_relation_right);
+//						System.out.println("UNCLEAR LEFT RIGHT " + quotee_left + quote_relation_left + quote + quotee_right + quote_relation_right);
 					annotation.setQuotee("<unclear>");
 					annotation.setQuoteRelation("<unclear>");
 					annotation.setQuoteType(quoteType);
@@ -1036,7 +1040,7 @@ DEPENDENCYSEARCH: for (Object object : list) {
 					annotation.setRepresentativeQuoteeMention(representative_quotee_left);
 				}
 				else if (quotee_left != null){
-					System.out.println("QUOTEE LEFT" + quotee_left + quote_relation_left + quoteeReliability_left);
+//					System.out.println("QUOTEE LEFT" + quotee_left + quote_relation_left + quoteeReliability_left);
 					annotation.setQuotee(quotee_left);
 					annotation.setQuoteRelation(quote_relation_left);
 					annotation.setQuoteType(quoteType);
@@ -1044,7 +1048,7 @@ DEPENDENCYSEARCH: for (Object object : list) {
 					annotation.setRepresentativeQuoteeMention(representative_quotee_left);
 				}
 				else if (quotee_right != null){
-					System.out.println("QUOTEE RIGHT FOUND" + quotee_right + " QUOTE RELATION " + quote_relation_right + ":" + quoteeReliability_right);
+//					System.out.println("QUOTEE RIGHT FOUND" + quotee_right + " QUOTE RELATION " + quote_relation_right + ":" + quoteeReliability_right);
 					annotation.setQuotee(quotee_right);
 					annotation.setQuoteRelation(quote_relation_right);
 					annotation.setQuoteType(quoteType);
@@ -1054,7 +1058,7 @@ DEPENDENCYSEARCH: for (Object object : list) {
 				else if (quote_relation_left != null ){
 					annotation.setQuoteRelation(quote_relation_left);
 					annotation.setQuoteType(quoteType);
-					System.out.println("NO QUOTEE FOUND" + quote + quote_relation_left + quote_relation_right);
+//					System.out.println("NO QUOTEE FOUND" + quote + quote_relation_left + quote_relation_right);
 				}
 				else if (quote_relation_right != null){
 					annotation.setQuoteRelation(quote_relation_right);
@@ -1066,9 +1070,9 @@ DEPENDENCYSEARCH: for (Object object : list) {
 				}
 				if (annotation.getRepresentativeQuoteeMention() != null){
 //					System.out.println("NOW!!" + annotation.getRepresentativeQuoteeMention());
-					if (hds.labelToDBpediaLink.containsKey(annotation.getRepresentativeQuoteeMention())){
-						annotation.setQuoteeDBpediaUri(hds.labelToDBpediaLink.get(annotation.getRepresentativeQuoteeMention()));
-						System.out.println("DBPRED FOUND" + annotation.getRepresentativeQuoteeMention() +  " URI: " + annotation.getQuoteeDBpediaUri());
+					if (hds.dbpediaSurfaceFormToDBpediaLink.containsKey(annotation.getRepresentativeQuoteeMention())){
+						annotation.setQuoteeDBpediaUri(hds.dbpediaSurfaceFormToDBpediaLink.get(annotation.getRepresentativeQuoteeMention()));
+//						System.out.println("DBPRED FOUND" + annotation.getRepresentativeQuoteeMention() +  " URI: " + annotation.getQuoteeDBpediaUri());
 					}
 					
 					
@@ -1121,6 +1125,20 @@ INDIRECTCHUNK:	for (Chunk aChunk : chunksIQ) {
 						// VP test: does that clause contain VP?
 					
 //			        	QuoteAnnotation indirectQuote = new QuoteAnnotation(aJCas);
+								
+								//NEW
+//								chunksBeforeIndirectQuote = chunksIQ.subList(0, index-1);
+//								Chunk chunkBeforeIndirectQuote = chunksBeforeIndirectQuote.get(chunksBeforeIndirectQuote.size()-1);
+//								List<Token> tokensBeforeSbar = JCasUtil.selectCovered(aJCas,
+//										Token.class, chunkBeforeIndirectQuote);
+//								for (Token aTokenBeforeSbar : tokensBeforeSbar){
+////									String and;
+//									if (coordLemma.contains(aTokenBeforeSbar.getLemma().getCoveredText())){
+//										System.out.println("COORD SUBORD");
+//									}
+//								}
+								
+								
 								List<QuoteAnnotation> coveringDirectQuoteChunk = JCasUtil.selectCovering(aJCas,
 										QuoteAnnotation.class, aChunk);
 								if (coveringDirectQuoteChunk.isEmpty()){
@@ -1132,6 +1150,10 @@ INDIRECTCHUNK:	for (Chunk aChunk : chunksIQ) {
 								 indirectQuote.addToIndexes();
 								 subsequentDirectQuoteInstance = false;
 //								 System.out.println("SUBSEQUENT FALSE");
+								 
+								 
+								 
+								 
 								 List<Token> followTokens = JCasUtil.selectFollowing(aJCas,
 											Token.class, indirectQuote, 1);
 								 for (Token aFollow3Token: followTokens){
@@ -1199,7 +1221,7 @@ INDIRECTCHUNK:	for (Chunk aChunk : chunksIQ) {
 						
 						
 			if (chunksBeforeIndirectQuote != null){
-							System.out.println("chunksBeforeIndirectQuote FOUND!! ");
+//							System.out.println("chunksBeforeIndirectQuote FOUND!! ");
 							String[] quote_annotation_result = determine_quotee_and_quote_relation("LEFT", chunksBeforeIndirectQuote,
 									 hds, indirectQuote
 									
@@ -1208,8 +1230,8 @@ INDIRECTCHUNK:	for (Chunk aChunk : chunksIQ) {
 			   quotee_left = quote_annotation_result[0];
 			   representative_quotee_left = quote_annotation_result[1];
 			   quote_relation_left = quote_annotation_result[2];
-			   System.out.println("INDIRECT QUOTE LEFT RESULT quotee " + quotee_left + " representative_quotee " + representative_quotee_left
-					   + " QUOTE RELATION " + quote_relation_left);
+//			   System.out.println("INDIRECT QUOTE LEFT RESULT quotee " + quotee_left + " representative_quotee " + representative_quotee_left
+//					   + " QUOTE RELATION " + quote_relation_left);
 			   try {
 				   quoteeReliability = Integer.parseInt(quote_annotation_result[3]);
 				   quoteeReliability_left = Integer.parseInt(quote_annotation_result[3]);
@@ -1242,7 +1264,7 @@ INDIRECTCHUNK:	for (Chunk aChunk : chunksIQ) {
 								&& 	hds.subsequentDirectQuote.getQuotee().equals("<unclear>")
 								&& 	hds.subsequentDirectQuote.getQuoteRelation().equals("<unclear>")
 									){
-								System.out.println("SUBSEQUENT UNCLEAR DIR QUOTE FOUND!!"); 
+//								System.out.println("SUBSEQUENT UNCLEAR DIR QUOTE FOUND!!"); 
 								int begin = hds.subsequentDirectQuote.getBegin();
 								int end = hds.subsequentDirectQuote.getEnd();
 								
@@ -1270,9 +1292,9 @@ INDIRECTCHUNK:	for (Chunk aChunk : chunksIQ) {
 						}
 						if (indirectQuote.getRepresentativeQuoteeMention() != null){
 //							System.out.println("NOW!!" + indirectQuote.getRepresentativeQuoteeMention());
-							if (hds.labelToDBpediaLink.containsKey(indirectQuote.getRepresentativeQuoteeMention())){
-								indirectQuote.setQuoteeDBpediaUri(hds.labelToDBpediaLink.get(indirectQuote.getRepresentativeQuoteeMention()));
-//								System.out.println("DBPEDIA " + indirectQuote.getRepresentativeQuoteeMention() +  " URI: " + hds.labelToDBpediaLink.get(indirectQuote.getRepresentativeQuoteeMention()));
+							if (hds.dbpediaSurfaceFormToDBpediaLink.containsKey(indirectQuote.getRepresentativeQuoteeMention())){
+								indirectQuote.setQuoteeDBpediaUri(hds.dbpediaSurfaceFormToDBpediaLink.get(indirectQuote.getRepresentativeQuoteeMention()));
+//								System.out.println("DBPEDIA " + indirectQuote.getRepresentativeQuoteeMention() +  " URI: " + hds.dbpediaSurfaceFormToDBpediaLink.get(indirectQuote.getRepresentativeQuoteeMention()));
 							}
 							
 							
@@ -1618,7 +1640,7 @@ public String [] determineBestRepMenSubject(String subjectHeadoffsets, String su
 				            		
 				            		){
 				   
-				   System.out.println("SUBJ CHUNK PRED " + aChunk.getCoveredText() + ":" + hds.offsetToLemma.get(predicate));
+//				   System.out.println("SUBJ CHUNK PRED " + aChunk.getCoveredText() + ":" + hds.offsetToLemma.get(predicate));
 //				   System.out.println("SUBJ HEAD PRED " + hds.offsetToSubjectHead.get(subject) + ":" + hds.offsetToLemma.get(predicate));
 //				   }  								   
 //			   }
@@ -1654,25 +1676,25 @@ public String [] determineBestRepMenSubject(String subjectHeadoffsets, String su
 					   && predicate != null && hds.offsetToLemmaOfOpinionExpression.get(predicate) != null
 					   && hds.offsetToLemma.get(predicate) != null
 					   ){
-				   System.out.println("NEW ANNOTATION  ");
+//				   System.out.println("NEW ANNOTATION  ");
 				   //"This is really a success story," Kujat said.
 				   //DELETE QUOTATION at beginning and end of quotee and representative quotee
 				   
 				   if (subjectChunkText.startsWith("\"")){
 					   subjectChunkText = subjectChunkText.substring(1, subjectChunkText.length());
-					   System.out.println("QUOTATION MARK FOUND1 " + subjectChunkText );
+//					   System.out.println("QUOTATION MARK FOUND1 " + subjectChunkText );
 				   }
 				   if (subjectChunkText.endsWith("\"")){
 					   subjectChunkText = subjectChunkText.substring(0, subjectChunkText.length()-1);
-					   System.out.println("QUOTATION MARK FOUND2 " + subjectChunkText );
+//					   System.out.println("QUOTATION MARK FOUND2 " + subjectChunkText );
 				   }
 				   if (subjectRepMenText.startsWith("\"")){
 					   subjectRepMenText = subjectRepMenText.substring(1, subjectRepMenText.length());
-					   System.out.println("QUOTATION MARK FOUND3 " + subjectRepMenText );
+//					   System.out.println("QUOTATION MARK FOUND3 " + subjectRepMenText );
 				   }
 				   if (subjectRepMenText.endsWith("\"")){
 					   subjectRepMenText = subjectRepMenText.substring(0, subjectRepMenText.length()-1);
-					   System.out.println("QUOTATION MARK FOUND4 " + subjectRepMenText );
+//					   System.out.println("QUOTATION MARK FOUND4 " + subjectRepMenText );
 				   }
 				   
 				   subjectChunkText = subjectChunkText.trim();
@@ -1711,7 +1733,7 @@ public String [] determineBestRepMenSubject(String subjectHeadoffsets, String su
 				   if (subjectChunkText != null && subjectRepMenText != null 
 					   && predicate != null)
 				   {
-				   System.out.println("UNCLEAR last predicate not opinion verb");
+//				   System.out.println("UNCLEAR last predicate not opinion verb");
 				   quoteeReliability = -5;
 				   quote_annotation[0]="<unclear>";
 				   quote_annotation[1]="<unclear>";
@@ -1750,12 +1772,12 @@ public String [] determineBestRepMenSubject(String subjectHeadoffsets, String su
 			
 			String offsetVerbCand = dep.offsetGovernor;
 			String verbCand = dep.governor;
-			System.out.println("VERBCAND IN" + verbCand);
+//			System.out.println("VERBCAND IN" + verbCand);
 			
 			String offsetSubj = dep.offsetDependant;
 			String subjCand = dep.dependant;
 			String posSubj = dep.posDependant;
-			System.out.println("SUBJCAND IN" + subjCand);
+//			System.out.println("SUBJCAND IN" + subjCand);
 				
 				//Reuters reported Christian Noyer to have said
 				//Reuters quoted Christian Noyer as saying
@@ -1765,17 +1787,17 @@ public String [] determineBestRepMenSubject(String subjectHeadoffsets, String su
 						&& hds.offsetToLemmaOfOpinionExpression.get(dep.offsetDependant) != null
 						
 						){
-					System.out.println("PREDOBJ ");
+//					System.out.println("PREDOBJ ");
 //					delete subj-pred relation if objectEqui of Governor: Reuters reported Noyer to have said
 					if (hds.objectEqui.contains(hds.offsetToLemmaOfOpinionExpression.get(dep.offsetGovernor))){
-						System.out.println("OBJEQUI ");
+//						System.out.println("OBJEQUI ");
 						if (hds.predicateToSubject.containsKey(dep.offsetGovernor)){
 							String del = hds.predicateToSubject.get(dep.offsetGovernor);
 							hds.predicateToSubject.remove(dep.offsetGovernor);
 							hds.subjectToPredicate.remove(del);
 							hds.normalPredicateToSubject.remove(dep.offsetGovernor);
 							hds.subjectToNormalPredicate.remove(del);
-							System.out.println("REMOVE1 " + dep.governor + "/" + hds.offsetToLemma.get(del));
+//							System.out.println("REMOVE1 " + dep.governor + "/" + hds.offsetToLemma.get(del));
 						}
 					
 //				
@@ -1794,7 +1816,7 @@ public String [] determineBestRepMenSubject(String subjectHeadoffsets, String su
 					//Merkel promised to say
 					//Obama is quoted as saying
 					else if (hds.subjectEqui.contains(hds.offsetToLemmaOfOpinionExpression.get(dep.offsetGovernor))){
-						System.out.println("SUBJEQUI");
+//						System.out.println("SUBJEQUI");
 //						verbCand = "" + dep.governor + "/" + dep.dependant; //report/say
 //						verbCand = dep.dependant; //say
 						verbCand = hds.offsetToLemma.get(dep.offsetDependant);
@@ -1809,14 +1831,14 @@ public String [] determineBestRepMenSubject(String subjectHeadoffsets, String su
 					
 
 					else {
-						System.out.println("NONE ");
+//						System.out.println("NONE ");
 						if (hds.predicateToSubject.containsKey(dep.offsetGovernor)){
 							String del = hds.predicateToSubject.get(dep.offsetGovernor);
 							hds.predicateToSubject.remove(dep.offsetGovernor);
 							hds.subjectToPredicate.remove(del);
 							hds.normalPredicateToSubject.remove(dep.offsetGovernor);
 							hds.subjectToNormalPredicate.remove(del);
-							System.out.println("REMOVE2 " + dep.governor);
+//							System.out.println("REMOVE2 " + dep.governor);
 						}
 						if (hds.predicateToSubject.containsKey(dep.offsetDependant)){
 							String del = hds.predicateToSubject.get(dep.offsetDependant);
@@ -1824,11 +1846,11 @@ public String [] determineBestRepMenSubject(String subjectHeadoffsets, String su
 							hds.subjectToPredicate.remove(del);
 							hds.normalPredicateToSubject.remove(dep.offsetDependant);
 							hds.subjectToNormalPredicate.remove(del);
-							System.out.println("REMOVE3 " + dep.dependant);
+//							System.out.println("REMOVE3 " + dep.dependant);
 						}
 						return;
 					}
-					System.out.println("OBJ-CHAIN-HEAD: " + subjCand + " " + verbCand);
+//					System.out.println("OBJ-CHAIN-HEAD: " + subjCand + " " + verbCand);
 //					System.out.println("OBJ-CHAIN-HEAD OFFSET: " + dep.offsetDependant + " " + dep.offsetGovernor);
 				}
 				//A respected fashion magazine in America even came out with a piece saying "celebrities were out and ordinary people were in" 
@@ -1836,7 +1858,7 @@ public String [] determineBestRepMenSubject(String subjectHeadoffsets, String su
 				else if (hds.nounToInfinitiveVerb.containsKey(dep.offsetGovernor)
 						&& !hds.normalPredicateToSubject.containsKey(dep.offsetDependant)
 						){
-					System.out.println("NOUN INF ");
+//					System.out.println("NOUN INF ");
 					verbCand = hds.offsetToLemma.get(dep.offsetDependant);
 					offsetVerbCand = dep.offsetDependant;
 					offsetSubj = dep.offsetGovernor;
@@ -1857,7 +1879,7 @@ public String [] determineBestRepMenSubject(String subjectHeadoffsets, String su
 						&& !hds.normalPredicateToSubject.containsKey(dep.offsetDependant)
 					
 						){
-					System.out.println("MAIN INF ");
+//					System.out.println("MAIN INF ");
 					verbCand = hds.offsetToLemma.get(dep.offsetDependant);
 					offsetVerbCand = dep.offsetDependant;
 					offsetSubj = hds.normalPredicateToSubject.get(dep.offsetGovernor);
@@ -1883,7 +1905,7 @@ public String [] determineBestRepMenSubject(String subjectHeadoffsets, String su
 					dep.dependant = subjCand;
 					dep.offsetDependant = offsetSubj;
 							
-					System.out.println("DOBJ SUBJ: " + dep.offsetDependant + " " + dep.dependant);
+//					System.out.println("DOBJ SUBJ: " + dep.offsetDependant + " " + dep.dependant);
 				}
 				
 				//Merkel was reported to have said tail have said
@@ -1897,7 +1919,7 @@ public String [] determineBestRepMenSubject(String subjectHeadoffsets, String su
 					if (hds.subjectEqui.contains(hds.offsetToLemmaOfOpinionExpression.get(dep.offsetGovernor))
 							||hds.objectEqui.contains(hds.offsetToLemmaOfOpinionExpression.get(dep.offsetGovernor))
 							){
-					System.out.println("SUBJCHAIN ");
+//					System.out.println("SUBJCHAIN ");
 //					verbCand = "" + dep.governor + "/" + dep.dependant; //report/say
 					verbCand = hds.offsetToLemma.get(dep.offsetDependant); //say
 					
@@ -1911,15 +1933,15 @@ public String [] determineBestRepMenSubject(String subjectHeadoffsets, String su
 					hds.offsetToLemmaOfOpinionExpression.remove(offsetVerbCand);
 					hds.offsetToLemmaOfOpinionExpression.put(offsetVerbCand, verbCand);
 					
-					System.out.println("SUBJ-CHAIN-HEAD: " + subjCand + " " + verbCand);
-					System.out.println("SUBJ-CHAIN-HEAD OFFSET: " + dep.offsetDependant + " " + dep.offsetGovernor);
+//					System.out.println("SUBJ-CHAIN-HEAD: " + subjCand + " " + verbCand);
+//					System.out.println("SUBJ-CHAIN-HEAD OFFSET: " + dep.offsetDependant + " " + dep.offsetGovernor);
 					}
 				}
 				
 
 				if (offsetToLemmaOfOpinionExpression.get(offsetVerbCand) != null){
 //					System.out.println("STORE: " + dep.offsetDependant + " " + dep.offsetGovernor);
-					System.out.println("STORE: " + dep.dependant + " " + dep.governor);
+//					System.out.println("STORE: " + dep.dependant + " " + dep.governor);
 					//NEW from determineOpinionHolderToOpinionVerbRelations:
 					hds.offsetToOpinionExpressionToken.put(dep.offsetGovernor, dep.governor);
 					storeRelations(dep, hds.predicateToSubject, hds.subjectToPredicate);
@@ -1928,11 +1950,11 @@ public String [] determineBestRepMenSubject(String subjectHeadoffsets, String su
 				}
 				if (hds.infinitiveToMainVerb.containsKey(dep.offsetDependant) 
 						&& hds.normalPredicateToSubject.containsKey(dep.offsetDependant)){
-					System.out.println("ALREADY IN2 ");
+//					System.out.println("ALREADY IN2 ");
 				}
 				else {
 				storeRelations(dep, hds.normalPredicateToSubject, hds.subjectToNormalPredicate);
-				System.out.println("STORE GENERAL: " + dep.dependant + " " + dep.governor);
+//				System.out.println("STORE GENERAL: " + dep.dependant + " " + dep.governor);
 				//NEW from determineOpinionHolderToOpinionVerbRelations:
 				hds.offsetToSubjectHead.put(dep.offsetDependant,dep.dependant);
 				hds.SubjectHead.add(dep.offsetDependant);
