@@ -284,7 +284,7 @@ public class QuoteAnnotator extends JCasAnnotator_ImplBase {
            	 pronTag.add("prp");
            	hds.pronTag.add("prp");
            	compLemma.add("that");
-           	compLemma.add("and");
+           	coordLemma.add("and");
            	verbComplementTag.add("ccomp");
            	verbComplementTag.add("parataxis");
 
@@ -1106,6 +1106,7 @@ INDIRECTQUOTE:		for (CoreMap sentence : sentences) {
 				List<Chunk> chunksIQ = JCasUtil.selectCovered(aJCas,
 				Chunk.class, sentenceAnn);
 				List<Chunk> chunksBeforeIndirectQuote = null;
+				
 				int index = 0;
 INDIRECTCHUNK:	for (Chunk aChunk : chunksIQ) {
 					index++;
@@ -1123,28 +1124,68 @@ INDIRECTCHUNK:	for (Chunk aChunk : chunksIQ) {
 //							String that = "that";
 							if (compLemma.contains(aTokenSbar.getLemma().getCoveredText())){
 						// VP test: does that clause contain VP?
-					
+//								System.out.println("TOK1" + aTokenSbar.getLemma().getCoveredText());
 //			        	QuoteAnnotation indirectQuote = new QuoteAnnotation(aJCas);
 								
-								//NEW
-//								chunksBeforeIndirectQuote = chunksIQ.subList(0, index-1);
-//								Chunk chunkBeforeIndirectQuote = chunksBeforeIndirectQuote.get(chunksBeforeIndirectQuote.size()-1);
-//								List<Token> tokensBeforeSbar = JCasUtil.selectCovered(aJCas,
-//										Token.class, chunkBeforeIndirectQuote);
-//								for (Token aTokenBeforeSbar : tokensBeforeSbar){
-////									String and;
-//									if (coordLemma.contains(aTokenBeforeSbar.getLemma().getCoveredText())){
-//										System.out.println("COORD SUBORD");
-//									}
-//								}
 								
+								 indirectQuoteBegin = aChunk.getEnd() + 1;
+								
+								 chunksBeforeIndirectQuote = chunksIQ.subList(0, index-1);
+								
+								
+								//NEW
+//								if (LANGUAGE == "en")
+								List<Token> precedingSbarTokens = JCasUtil.selectPreceding(aJCas,
+										Token.class, aChunk, 1);
+								
+								for (Token aPrecedingSbarToken: precedingSbarTokens){ 
+//									System.out.println("TOK2" + aPrecedingSbarToken.getLemma().getCoveredText());
+				                	if (coordLemma.contains(aPrecedingSbarToken.getLemma().getValue().toString())){
+//				                		System.out.println("TOKK" + aPrecedingSbarToken.getLemma().getCoveredText());
+				                		chunksBeforeIndirectQuote = chunksIQ.subList(0, index-1);
+				                		int k = 0;
+				                	SAY:	for (Chunk chunkBeforeAndThat : chunksBeforeIndirectQuote){
+//				                			xxxx
+				                		k++;
+				                			if (chunkBeforeAndThat.getChunkValue().equals("VP")){
+				                				
+				                				List<Token> tokensInVp = JCasUtil.selectCovered(aJCas,
+														Token.class, chunkBeforeAndThat);
+												for (Token aTokenInVp : tokensInVp){
+//													String and;
+//													System.out.println("TOKK" + aTokenInVp.getLemma().getCoveredText());
+													if (aTokenInVp.getLemma().getValue().equals("say")){
+//														System.out.println("SAY OLD" + indirectQuoteBegin + ":"  + sentenceAnn.getCoveredText());
+														chunksBeforeIndirectQuote = chunksIQ.subList(0, k);
+														indirectQuoteBegin = chunksBeforeIndirectQuote.get(chunksBeforeIndirectQuote.size()-1).getEnd()+1;
+														
+//														System.out.println("SAY NEW" + indirectQuoteBegin + ":" );
+														break SAY;
+													}
+												}
+				                				
+				                				
+				                			}
+				                			
+				                			
+				                		}
+				                		
+				                	}
+								}
+								
+								
+//								
+//							
+//								
+//								
+//								
 								
 								List<QuoteAnnotation> coveringDirectQuoteChunk = JCasUtil.selectCovering(aJCas,
 										QuoteAnnotation.class, aChunk);
 								if (coveringDirectQuoteChunk.isEmpty()){
-								 indirectQuoteBegin = aChunk.getEnd() + 1;
+//								 indirectQuoteBegin = aChunk.getEnd() + 1;
 								 indirectQuote.setBegin(indirectQuoteBegin);
-								 chunksBeforeIndirectQuote = chunksIQ.subList(0, index-1);
+//								 chunksBeforeIndirectQuote = chunksIQ.subList(0, index-1);
 								 indirectQuoteEnd = sentenceAnn.getEnd();
 								 indirectQuote.setEnd(indirectQuoteEnd);
 								 indirectQuote.addToIndexes();
@@ -1596,11 +1637,11 @@ public String [] determineBestRepMenSubject(String subjectHeadoffsets, String su
 //				   	if (subject.equals(entry.getValue())){
 //				   		predicate = entry.getKey();
 //				   	}
-				   	//TO DO
+//				   	//TO DO
 //					    String key = entry.getKey();
 //					    Object value = entry.getValue();
 //					    System.out.println("OFFSET " + key + " LEMMA " + value);
-//					    // FOR LOOP
+////					    // FOR LOOP
 //					}
 	
 //				   predicate = hds.subjectToPredicate.get(subject);
